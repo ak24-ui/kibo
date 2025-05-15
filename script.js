@@ -23,12 +23,9 @@ if (!SpeechRecognition) {
     const speechToText = event.results[0][0].transcript;
     transcript.textContent = speechToText;
 
-    // Default reply
     let reply = "Sorry, I didn’t catch that. I’m still learning.";
-
     const text = speechToText.toLowerCase();
 
-    // Responses with Kibo's personality
     if (text.includes('hello') || text.includes('hi')) {
       reply = "Hello! I'm Kibo. How can I assist you today?";
     } else if (text.includes('your name')) {
@@ -46,6 +43,11 @@ if (!SpeechRecognition) {
     }
 
     response.textContent = reply;
+
+    // ✅ Speak the reply
+    const utterance = new SpeechSynthesisUtterance(reply);
+    utterance.lang = 'en-US';
+    window.speechSynthesis.speak(utterance);
   });
 
   recognition.addEventListener('speechend', () => {
